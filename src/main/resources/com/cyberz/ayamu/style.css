@@ -1,0 +1,15 @@
+/* Title text at the top */
+#toolsTitle {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2a9df4; /* a nice blue */
+    -fx-background-color: transparent; /* keep it clean */
+}
+
+/* Pane background */
+#toolViewPane {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #e0e0e0); /* subtle gradient */
+    -fx-border-color: #2a9df4;
+    -fx-border-width: 2px;
+    -fx-padding: 10px;
+}
