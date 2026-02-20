@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="84.0" prefWidth="159.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cyberz.ayamu.Controllers.BrushEditor">
+<AnchorPane prefHeight="147.0" prefWidth="183.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cyberz.ayamu.Controllers.BrushEditor">
    <children>
-      <ChoiceBox layoutX="14.0" layoutY="31.0" prefHeight="8.0" prefWidth="128.0" />
+      <ChoiceBox fx:id="modePicker" layoutX="13.0" layoutY="42.0" onAction="#setLineMode" prefHeight="26.0" prefWidth="65.0" />
       <Label layoutX="14.0" layoutY="14.0" text="Brush Mode" />
+      <Label layoutX="130.0" layoutY="16.0" prefHeight="18.0" prefWidth="47.0" text="Color" />
+      <ColorPicker fx:id="brushColorPicker" layoutX="120.0" layoutY="41.0" onAction="#pickColor" prefHeight="26.0" prefWidth="47.0" />
+      <ChoiceBox fx:id="brushSizePicker" layoutX="15.0" layoutY="99.0" onAction="#sizePicker" prefHeight="26.0" prefWidth="47.0" />
+      <Label layoutX="29.0" layoutY="80.0" prefHeight="18.0" prefWidth="47.0" text="Size" />
    </children>
 </AnchorPane>

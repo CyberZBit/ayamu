@@ -13,7 +13,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainWindowView.fxml"));
         Scene scene = new Scene(loader.load());
-        stage.setTitle("my first JavaFX app");
+        stage.setTitle("Ayamu");
         scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();

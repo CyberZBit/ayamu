@@ -1,10 +1,14 @@
 package com.cyberz.ayamu.Controllers;
 
 
+import com.cyberz.ayamu.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,26 +20,28 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import java.io.IOException;
 
 
 public class MainController {
 
+    @FXML
+    private Canvas canvasView;
+
+    private Stage brushEditorStage = null;
+    private Color brushColor = Color.GRAY;
+    private StrokeLineCap lineMode = StrokeLineCap.ROUND;
     private double brushSize = 2.0;
     private double lastX, lastY;
-    ObservableList<Double> pixelBrushSize = FXCollections.observableArrayList(2.0,4.0,8.0,10.0,18.0,24.0,30.0,40.0);
     ObservableList<WritableImage> versionController = FXCollections.observableArrayList();
     GraphicsContext gc;
 
-    @FXML
-    private Canvas canvasView;
-    @FXML
-    private ColorPicker colorPickerFC;
-    @FXML
-    private ChoiceBox paintSize;
 
     @FXML
     private void initialize(){
-        paintSize.setItems(pixelBrushSize);
         gc = canvasView.getGraphicsContext2D();
     }
 
@@ -47,20 +53,14 @@ public class MainController {
 
     @FXML
     private void drawCircle(MouseEvent evt){
-        gc.setStroke(colorPickerFC.getValue());
+        gc.setStroke(brushColor);
         gc.setLineWidth(brushSize);
-        gc.setLineCap(StrokeLineCap.ROUND);
+        gc.setLineCap(lineMode);
         gc.strokeLine(lastX, lastY, evt.getX(), evt.getY());
 
         lastX = evt.getX();
         lastY = evt.getY();
 
-    }
-
-
-    @FXML
-    private void sizePicker(ActionEvent evt){
-        brushSize = (double) paintSize.getValue();
     }
 
     //fires after onDragRelease event
@@ -103,6 +103,46 @@ public class MainController {
         graphicsContext.drawImage(previousState, 0, 0);
 
         System.out.println("Undo successful. States remaining: " + versionController.size());
+    }
+
+
+    @FXML
+    private void openBrushEditor() throws IOException {
+        //Check if the window is already open
+        if (brushEditorStage != null && brushEditorStage.isShowing()) {
+            brushEditorStage.toFront();
+            brushEditorStage.requestFocus();
+            return;
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("brushEditor.fxml"));
+        Parent root = fxmlLoader.load();
+
+        BrushEditor brushEditor = fxmlLoader.getController();
+        brushEditor.setMainController(this, brushColor, brushSize, lineMode);
+
+        brushEditorStage = new Stage();
+        brushEditorStage.setScene(new Scene(root));
+        brushEditorStage.setTitle("Edit brush");
+        brushEditorStage.setResizable(false);
+
+        Window mainWindow = canvasView.getScene().getWindow();
+        brushEditorStage.initOwner(mainWindow);
+
+        brushEditorStage.show();
+    }
+
+    //crossover functions used in other windows
+    public void updateBrushSize(Double size) {
+        brushSize = size;
+    }
+
+    public void updateBrushColor(Color color){
+        brushColor = color;
+    }
+
+    public void updateBrushMode(StrokeLineCap cap){
+        lineMode = cap;
     }
 
 }
