@@ -20,9 +20,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -38,7 +40,6 @@ public class MainController {
     private double lastX, lastY;
     ObservableList<WritableImage> versionController = FXCollections.observableArrayList();
     GraphicsContext gc;
-
 
     @FXML
     private void initialize(){
@@ -115,7 +116,7 @@ public class MainController {
             return;
         }
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("brushEditor.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("components/brushEditor.fxml"));
         Parent root = fxmlLoader.load();
 
         BrushEditor brushEditor = fxmlLoader.getController();
@@ -130,6 +131,26 @@ public class MainController {
         brushEditorStage.initOwner(mainWindow);
 
         brushEditorStage.show();
+    }
+
+
+    @FXML
+    private void saveCanvasImage() {
+        FileChooser fileLoc = new FileChooser();
+        fileLoc.setTitle("Save Picture");
+        fileLoc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+        File file = fileLoc.showSaveDialog(Main.primaryStage);
+
+        if (file != null) {
+            try {
+
+                WritableImage image = canvasView.snapshot(null, null);
+                var bufferedImage = javafx.embed.swing.SwingFXUtils.fromFXImage(image, null);
+                javax.imageio.ImageIO.write(bufferedImage, "png", file);
+            } catch (IOException ex) {
+                System.err.println("Failed to save image: " + ex.getMessage());
+            }
+        }
     }
 
     //crossover functions used in other windows

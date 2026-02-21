@@ -9,14 +9,20 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+    // Declare public static variables
+    public static Stage primaryStage;
+    public static Scene mainScene;
+
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("mainWindowView.fxml"));
-        Scene scene = new Scene(loader.load());
-        stage.setTitle("Ayamu");
-        scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        primaryStage = stage;
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("components/mainWindowView.fxml"));
+        mainScene = new Scene(loader.load());
+        primaryStage.setTitle("Ayamu");
+        mainScene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
 
     }
 
