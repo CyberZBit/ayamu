@@ -1,15 +1,103 @@
-/* Title text at the top */
-#toolsTitle {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2a9df4; /* a nice blue */
-    -fx-background-color: transparent; /* keep it clean */
+/* Main Application Background */
+.root {
+    -fx-background-color: #1a1a20;
 }
 
-/* Pane background */
-#toolViewPane {
-    -fx-background-color: linear-gradient(to bottom, #ffffff, #e0e0e0); /* subtle gradient */
-    -fx-border-color: #2a9df4;
-    -fx-border-width: 2px;
-    -fx-padding: 10px;
+/* Toolbars */
+#top-bar {
+    -fx-background-color: #111116;
+    -fx-border-color: #2a2a35;
+    -fx-border-width: 0 0 1 0;
 }
+
+#left-toolbar {
+    -fx-background-color: #111116;
+    -fx-border-color: #2a2a35;
+    -fx-border-width: 0 1 0 0;
+}
+
+#bottom-bar {
+    -fx-background-color: #111116;
+    -fx-border-color: #2a2a35;
+    -fx-border-width: 1 0 0 0;
+}
+
+#toolsTitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Tool Buttons */
+.tool-btn {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 8px;
+}
+.tool-btn:hover {
+    -fx-background-color: #2a2a35;
+    -fx-background-radius: 8px;
+}
+.tool-btn:pressed {
+    -fx-background-color: #3f3f4e;
+}
+
+/* Text-based icons (Undo/Redo) */
+.icon-text-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8a8a9a;
+    -fx-font-size: 22px;
+    -fx-cursor: hand;
+}
+.icon-text-btn:hover {
+    -fx-text-fill: white;
+}
+
+/* Slider */
+.slider .track {
+    -fx-background-color: #444;
+    -fx-pref-height: 4px;
+}
+.slider .thumb {
+    -fx-background-color: white;
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px;
+}
+
+/* Canvas Container with Grid */
+#canvas-container {
+    -fx-background-color: #f8f8f8;
+    -fx-background-image:
+        linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+        linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
+    -fx-background-size: 60px 60px; /* Size of the grid squares */
+}
+
+/* Color Palette Buttons */
+.color-btn {
+    -fx-min-width: 24px;
+    -fx-min-height: 24px;
+    -fx-max-width: 24px;
+    -fx-max-height: 24px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+}
+.color-btn:hover {
+    -fx-border-color: white;
+}
+
+/* Specific Palette Colors */
+.color-black { -fx-background-color: #000000; }
+.color-white { -fx-background-color: #FFFFFF; }
+.color-red { -fx-background-color: #E53935; }
+.color-orange { -fx-background-color: #FB8C00; }
+.color-yellow { -fx-background-color: #FDD835; }
+.color-green { -fx-background-color: #43A047; }
+.color-blue { -fx-background-color: #1E88E5; }
+.color-indigo { -fx-background-color: #3949AB; }
+.color-purple { -fx-background-color: #8E24AA; }
+.color-pink { -fx-background-color: #D81B60; }
+.color-brown { -fx-background-color: #6D4C41; }
+.color-grey { -fx-background-color: #757575; }

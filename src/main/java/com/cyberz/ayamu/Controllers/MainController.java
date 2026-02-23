@@ -5,6 +5,7 @@ import com.cyberz.ayamu.Main;
 import com.cyberz.ayamu.misc.ConfirmChoiceWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -13,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -31,6 +34,9 @@ public class MainController {
 
     @FXML
     private Canvas canvasView;
+
+    @FXML
+    private Slider brushSizeSlider;
 
     private Stage brushEditorStage = null;
     private Color brushColor = Color.GRAY;
@@ -82,7 +88,6 @@ public class MainController {
 
     @FXML
     private void onUndoButtonCombo(KeyEvent evt ){
-
         if(evt.getCode().equals(KeyCode.Z) && evt.isControlDown()){
             System.out.println("Pressing CRL + Z");
             doUndoChange();
@@ -90,6 +95,7 @@ public class MainController {
 
     }
 
+    @FXML
     private void doUndoChange() {
         if (versionController.size() < 2) {
             canvasView.getGraphicsContext2D().clearRect(0, 0, canvasView.getWidth(), canvasView.getHeight());
@@ -165,6 +171,21 @@ public class MainController {
 
     }
 
+    @FXML
+    private void setBrushColor(ActionEvent evt){
+        Button btn = (Button) evt.getSource();
+        String hexCode = (String) btn.getUserData();
+
+        brushColor = Color.valueOf(hexCode);
+
+    }
+
+    @FXML
+    private void setBrushSize(){
+        brushSize = brushSizeSlider.getValue();
+    }
+
+
 
     //crossover functions used in other windows
     public void updateBrushSize(Double size) {
@@ -178,5 +199,7 @@ public class MainController {
     public void updateBrushMode(StrokeLineCap cap){
         lineMode = cap;
     }
+
+
 
 }
