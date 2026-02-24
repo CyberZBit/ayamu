@@ -44,6 +44,7 @@ public class BrushEditor {
     private void initialize() {
         modePicker.setItems(brushModesList);
         brushSizePicker.setItems(pixelBrushSize);
+
     }
 
     @FXML

@@ -14,13 +14,14 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -52,7 +53,8 @@ public class MainController {
 
         canvasView.setOnMouseEntered(mouseEvent -> Main.mainScene.setCursor(Cursor.CROSSHAIR));
 
-
+        //canvasView.setWidth(Main.mainScene.getWidth());
+        //canvasView.setHeight(Main.mainScene.getHeight());
     }
 
     @FXML
@@ -178,6 +180,22 @@ public class MainController {
 
         brushColor = Color.valueOf(hexCode);
 
+    }
+
+    @FXML
+    private void openColorPicker(){
+        Dialog<Color> dialog = new Dialog<>();
+        ColorPicker picker = new ColorPicker();
+
+        dialog.getDialogPane().setContent(picker);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+        dialog.setResultConverter(b -> {
+            picker.getValue();
+            brushColor = picker.getValue();
+            return null;
+        });
+        dialog.showAndWait();
     }
 
     @FXML

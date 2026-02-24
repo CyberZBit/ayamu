@@ -32,7 +32,7 @@
                     <Button fx:id="colorPink"   styleClass="color-btn, color-pink"   userData="#EC407A" onAction="#setBrushColor"/>
                     <Button fx:id="colorBrown"  styleClass="color-btn, color-brown"  userData="#6D4C41" onAction="#setBrushColor"/>
                     <Button fx:id="colorGrey"   styleClass="color-btn, color-grey"   userData="#757575" onAction="#setBrushColor"/>
-                    <Button fx:id="colorWhite"  styleClass="color-btn, color-white"  userData="#FFFFFF" onAction="#setBrushColor"/>
+                    <Button fx:id="colorWhite"  styleClass="color-btn, color-rainbow" onAction="#openColorPicker"/>
                 </HBox>
 
                 <Pane HBox.hgrow="ALWAYS" />
@@ -79,12 +79,19 @@
                 <Button fx:id="eraserBtn" onAction="#eraseCanvasContents" styleClass="tool-btn">
                     <graphic>
                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                            <image><Image url="@../images/shredder-icon.jpg" /></image>
+                            <image><Image url="@../images/delete.png" /></image>
                         </ImageView>
                     </graphic>
                 </Button>
 
-                <Button fx:id="textBtn" style="-fx-font-size: 24px; -fx-font-family: serif;" styleClass="tool-btn" text="T" textFill="WHITE" />
+                <Button fx:id="textBtn" styleClass="tool-btn">
+                    <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                            <image><Image url="@../images/text-icon.png" /></image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
             </children>
         </VBox>
     </left>

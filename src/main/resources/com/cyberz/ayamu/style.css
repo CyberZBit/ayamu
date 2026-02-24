@@ -101,3 +101,17 @@
 .color-pink { -fx-background-color: #D81B60; }
 .color-brown { -fx-background-color: #6D4C41; }
 .color-grey { -fx-background-color: #757575; }
+.color-rainbow {
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+    -fx-background-color: linear-gradient(
+        to right,
+        red,
+        orange,
+        yellow,
+        lime,
+        cyan,
+        blue,
+        violet
+    );
+}
