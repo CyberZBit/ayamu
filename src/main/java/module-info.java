@@ -8,7 +8,6 @@ module com.cyberz.ayamu {
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
-    requires MathParser.org.mXparser;
     requires javafx.swing;
 
     opens com.cyberz.ayamu to javafx.fxml;

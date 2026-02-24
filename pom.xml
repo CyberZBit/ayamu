@@ -91,13 +91,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.mariuszgromada.math</groupId>
-            <artifactId>MathParser.org-mXparser</artifactId>
-            <version>6.1.0</version>
-        </dependency>
-
     </dependencies>
 
     <build>

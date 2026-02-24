@@ -21,6 +21,9 @@ public class Main extends Application {
         mainScene = new Scene(loader.load());
         primaryStage.setTitle("Ayamu");
         mainScene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
+        primaryStage.setWidth(1200);
+        primaryStage.setHeight(800);
+        primaryStage.setResizable(false);
         primaryStage.setScene(mainScene);
         primaryStage.show();
 
