@@ -39,7 +39,7 @@
 
                 <HBox alignment="CENTER" spacing="10.0">
                     <Label style="-fx-font-size: 18px;" text="🖌" textFill="WHITE" />
-                    <Slider fx:id="brushSizeSlider" max="50.0" min="1.0" prefWidth="150.0" showTickLabels="true" value="2.0" onMouseReleased="#setBrushSize"/>
+                    <Slider fx:id="brushSizeSlider" max="50.0" min="1.0" prefWidth="150.0" showTickLabels="true" value="2.0"/>
                 </HBox>
 
                 <Pane HBox.hgrow="ALWAYS" />

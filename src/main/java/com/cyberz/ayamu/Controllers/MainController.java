@@ -3,6 +3,7 @@ package com.cyberz.ayamu.Controllers;
 
 import com.cyberz.ayamu.Main;
 import com.cyberz.ayamu.misc.ConfirmChoiceWindow;
+import com.cyberz.ayamu.model.PaintStroke;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,23 +30,24 @@ import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainController {
 
-    @FXML
-    private Canvas canvasView;
 
-    @FXML
-    private Slider brushSizeSlider;
+    @FXML private Canvas canvasView;
+    @FXML private Slider brushSizeSlider;
 
     private Stage brushEditorStage = null;
     private Color brushColor = Color.GRAY;
     private StrokeLineCap lineMode = StrokeLineCap.ROUND;
     private double brushSize = 2.0;
-    private double lastX, lastY;
-    ObservableList<WritableImage> versionController = FXCollections.observableArrayList();
-    GraphicsContext gc;
+    private GraphicsContext gc;
+    private List<PaintStroke> strokeHistory = new ArrayList<>();
+    private PaintStroke currentStroke;
+
 
     @FXML
     private void initialize(){
@@ -53,69 +55,82 @@ public class MainController {
 
         canvasView.setOnMouseEntered(mouseEvent -> Main.mainScene.setCursor(Cursor.CROSSHAIR));
 
-        //canvasView.setWidth(Main.mainScene.getWidth());
-        //canvasView.setHeight(Main.mainScene.getHeight());
+        if (brushSizeSlider != null) {
+            brushSizeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+                brushSize = newVal.doubleValue();
+            });
+        }
+
     }
 
     @FXML
+    //onMousePressed
     private void startPath(MouseEvent evt) {
-        lastX = evt.getX();
-        lastY = evt.getY();
-    }
-
-    @FXML
-    private void drawCircle(MouseEvent evt){
+        currentStroke = new PaintStroke(lineMode, Color.valueOf(String.valueOf(brushColor)), brushSize);
+        currentStroke.addPoint(evt.getX(), evt.getY());
         gc.setStroke(brushColor);
         gc.setLineWidth(brushSize);
         gc.setLineCap(lineMode);
-        gc.strokeLine(lastX, lastY, evt.getX(), evt.getY());
-
-        lastX = evt.getX();
-        lastY = evt.getY();
-
+        gc.beginPath();
+        gc.moveTo(evt.getX(), evt.getY());
+        gc.stroke();
     }
 
-    //fires after onDragRelease event
+
     @FXML
-    private void saveCanvasChange(){
-
-        ///https://stackoverflow.com/questions/33988596/how-to-copy-contents-of-one-canvas-to-another
-
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        WritableImage image = canvasView.snapshot(params, null);
-        versionController.add(image);
+    //onMouseDragged
+    private void drawCircle(MouseEvent evt){
+        currentStroke.addPoint(evt.getX(), evt.getY());
+        gc.lineTo(evt.getX(), evt.getY());
+        gc.setStroke(brushColor);
+        gc.setLineWidth(brushSize);
+        gc.setLineCap(lineMode);
+        gc.stroke();
     }
 
+
+    @FXML
+    //onMouseReleased
+    private void saveCanvasChange(){
+        strokeHistory.add(currentStroke);
+    }
+
+    private void redrawCanvas() {
+        gc.clearRect(0, 0, canvasView.getWidth(), canvasView.getHeight());
+
+        for (PaintStroke stroke : strokeHistory) {
+            gc.setStroke(stroke.getStrokeColor());
+            gc.setLineWidth(stroke.getStrokeSize());
+            gc.setLineCap(stroke.getLineCap());
+            gc.beginPath();
+
+            List<double[]> points = stroke.getPoints();
+            if (!points.isEmpty()) {
+                gc.moveTo(points.get(0)[0], points.get(0)[1]);
+                for (int i = 1; i < points.size(); i++) {
+                    gc.lineTo(points.get(i)[0], points.get(i)[1]);
+                }
+                gc.stroke();
+            }
+        }
+    }
 
     @FXML
     private void onUndoButtonCombo(KeyEvent evt ){
         if(evt.getCode().equals(KeyCode.Z) && evt.isControlDown()){
-            System.out.println("Pressing CRL + Z");
-            doUndoChange();
+            if(!strokeHistory.isEmpty()){
+                doUndoChange();
+            }
         }
-
     }
+
 
     @FXML
     private void doUndoChange() {
-        if (versionController.size() < 2) {
-            canvasView.getGraphicsContext2D().clearRect(0, 0, canvasView.getWidth(), canvasView.getHeight());
-
-            //prevents old changes from appearing
-            versionController.clear();
-            return;
-        }
-
-        versionController.remove(versionController.size() - 1);
-
-        WritableImage previousState = versionController.get(versionController.size() - 1);
-        GraphicsContext graphicsContext = canvasView.getGraphicsContext2D();
-        graphicsContext.clearRect(0, 0, canvasView.getWidth(), canvasView.getHeight());
-        graphicsContext.drawImage(previousState, 0, 0);
-
-        System.out.println("Undo successful. States remaining: " + versionController.size());
+        strokeHistory.remove(strokeHistory.size() - 1);
+        redrawCanvas();
     }
+
 
 
     @FXML
@@ -197,12 +212,6 @@ public class MainController {
         });
         dialog.showAndWait();
     }
-
-    @FXML
-    private void setBrushSize(){
-        brushSize = brushSizeSlider.getValue();
-    }
-
 
 
     //crossover functions used in other windows
